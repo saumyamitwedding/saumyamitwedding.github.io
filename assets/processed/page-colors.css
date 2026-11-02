@@ -1,0 +1,19 @@
+/* Generated from the supplied artwork's central background colours. */
+:root {
+  --cp-art-01: #fdf5e0;
+  --cp-art-02: #e4b6a9;
+  --cp-art-03: #fce8ca;
+  --cp-art-04: #e8dbc7;
+  --cp-art-05: #f3e6d7;
+  --cp-art-06: #f9f2e8;
+  --cp-art-07: #d8cbca;
+  --cp-art-08: #c9e7f8;
+}
+#invitation-cover { --cp-page-paper: var(--cp-art-01); --cp-next-paper: var(--cp-art-02); }
+#our-beginning { --cp-page-paper: var(--cp-art-02); --cp-next-paper: var(--cp-art-03); }
+#mehendi { --cp-page-paper: var(--cp-art-03); --cp-next-paper: var(--cp-art-04); }
+#haldi { --cp-page-paper: var(--cp-art-04); --cp-next-paper: var(--cp-art-05); }
+#baraat { --cp-page-paper: var(--cp-art-05); --cp-next-paper: var(--cp-art-06); }
+#wedding { --cp-page-paper: var(--cp-art-06); --cp-next-paper: var(--cp-art-07); }
+#vidaai { --cp-page-paper: var(--cp-art-07); --cp-next-paper: var(--cp-art-08); }
+#venues { --cp-page-paper: var(--cp-art-08); --cp-next-paper: var(--cp-art-08); }
