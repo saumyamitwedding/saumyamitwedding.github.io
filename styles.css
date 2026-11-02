@@ -106,6 +106,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   z-index: -2;
   pointer-events: none;
   background: var(--cp-page-paper);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 .scene:not(:last-child) { margin-bottom: var(--color-bridge); }
 .scene:not(:last-child)::after {
@@ -116,7 +118,9 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   height: var(--color-bridge);
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(to bottom, var(--cp-page-paper) 0 12px, var(--cp-next-paper) calc(100% - 12px) 100%);
+  background: linear-gradient(to bottom, var(--cp-edge-from) 0 12px, var(--cp-edge-to) calc(100% - 12px) 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 .scene-visual {
   position: absolute;
@@ -147,6 +151,9 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .scene--hero { padding-block: 32px 120px; }
 .scene--hero .scene-copy { padding-left: 24px; }
 .scene--hero .eyebrow { font-size: 9px; letter-spacing: 1.7px; margin-bottom: 12px; }
+.scene--hero .couple-names,
+.scene--hero .hero-invitation,
+.scene--hero .hero-date { position: relative; top: 24px; }
 .couple-names { color: var(--cp-accent); font-family: var(--wedding-script); font-size: 82px; font-weight: 400; line-height: 1; letter-spacing: 0; }
 .ampersand { display: block; font-family: var(--wedding-display); font-size: 38px; line-height: 1.15; font-weight: 400; font-style: italic; letter-spacing: 0; }
 .hero-invitation { margin-top: 16px; font-family: var(--wedding-display); font-size: 17px; font-style: italic; line-height: 1.3; color: var(--cp-text-muted); }
@@ -157,6 +164,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 
 .scene--story { padding-block: 32px max(56px, var(--page-clearance)); }
 .scene--story h2 { font-size: 46px; margin-bottom: 28px; }
+.scene--story .scene-copy > .eyebrow,
+.scene--wedding .scene-copy > .eyebrow { position: relative; top: 16px; }
 .story-prose { font-size: 13px; line-height: 1.9; margin: 0 auto 16px; max-width: 290px; }
 .story-dates { margin-top: 24px; font-size: 12px; color: var(--cp-accent); letter-spacing: 1.3px; }
 .countdown-wrap { margin: 28px 0; padding-top: 24px; border-top: 1px solid var(--cp-border-strong); }
@@ -171,6 +180,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .event-date > span + span { border-left: 1px solid var(--cp-border-strong); }
 .event-date small { font-size: 8px; letter-spacing: 1.2px; text-transform: uppercase; }
 .event-date strong { font-family: var(--wedding-display); font-size: 23px; font-weight: 600; line-height: 1.1; color: var(--cp-accent); white-space: nowrap; }
+.event-date .poetic-time strong { white-space: normal; font-size: 18px; font-style: italic; font-weight: 500; line-height: 1.3; }
 .event-place { font-family: var(--wedding-display); font-size: 24px; font-weight: 600; line-height: 1.2; }
 .event-address { margin-top: 8px; font-size: 12px; line-height: 1.7; color: var(--cp-text-muted); }
 .map-link { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; margin-top: 22px; padding: 10px 18px; border: 1px solid var(--cp-accent); border-radius: 10px; text-decoration: none; font-size: 11px; }
@@ -189,7 +199,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .scene--vidaai { padding-block: 32px 196px; }
 .scene--vidaai .occasion-note { margin-top: 12px; }
 
-.scene--venues { padding-block: 112px 120px; align-items: start; }
+.scene--venues { padding-block: 112px 180px; align-items: start; }
 .scene--venues .scene-copy { width: calc(100% - 64px); padding-block: 0; }
 .scene--venues .scene-copy > .eyebrow { margin-bottom: 12px; }
 .scene--venues h2 { font-size: 44px; }
@@ -202,15 +212,17 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .map-frame { height: 240px; margin-top: 16px; border: 1px solid var(--cp-border); border-radius: 10px; overflow: hidden; background: var(--cp-surface-soft); }
 .map-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
 .map-help { font-size: 10px; line-height: 1.8; color: var(--cp-text-muted); margin-top: 16px; }
-.sign-off { font-size: 11px; margin-top: 20px; color: var(--cp-text-muted); }
-.signature { font-family: var(--wedding-script); font-size: 38px; font-weight: 400; color: var(--cp-accent); margin-top: 8px; }
+.invitation-signature { position: absolute; bottom: 6%; left: 50%; transform: translateX(-50%); width: calc(100% - 64px); z-index: 1; text-align: center; }
+.sign-off { font-size: 11px; color: var(--cp-text-muted); }
+.signature { font-family: var(--wedding-script); font-size: 38px; font-weight: 400; line-height: 1; color: var(--cp-text); margin-top: 8px; white-space: nowrap; }
 .signature i { font-family: var(--wedding-display); font-size: 28px; padding: 0 4px; }
 
 .ambient { animation-play-state: running; }
 .hanging-layer, .foliage-layer { position: absolute; height: auto; }
 .hanging-layer img, .foliage-layer img, .butterfly img, .flying-birds img { display: block; width: 100%; height: auto; }
 .hanging-layer { --sway-angle: 2.4deg; animation: pendant-sway var(--sway-duration, 6s) ease-in-out infinite; }
-.hanging-layer[data-layer^="mehendi-"] { --sway-angle: 4deg; }
+.hanging-layer[data-layer^="mehendi-"],
+.hanging-layer[data-layer^="baraat-"] { --sway-angle: 4deg; }
 .foliage-layer { --breeze-angle: 1.6deg; animation: leaf-breeze var(--sway-duration, 9s) ease-in-out infinite; }
 .hanging-layer:nth-child(odd), .foliage-layer:nth-child(odd) { animation-delay: -2.3s; }
 .butterfly { position: absolute; width: 9.5%; animation: butterfly-drift 17s ease-in-out infinite; }
@@ -224,7 +236,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .flying-birds { position: absolute; left: -29%; top: 65%; width: 30%; opacity: .65; animation: birds-crossing 21s linear infinite; }
 .glow--gold { --glow-color: var(--cp-warning); }
 .glow--rose { --glow-color: var(--cp-accent); }
-.lantern-glow, .light-halo, .sky-light {
+.lantern-glow, .sky-light {
   position: absolute;
   border-radius: 50%;
   background: var(--glow-color);
@@ -233,9 +245,6 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   animation: lamplight 4.8s ease-in-out infinite;
 }
 .lantern-glow { width: 42%; height: 32%; left: 29%; top: 48%; }
-.light-halo { width: 3%; height: 2.8%; }
-.light-halo--right { left: 70.7%; top: 10.1%; animation-delay: -2s; }
-.light-halo--low { left: 90.5%; top: 27.1%; animation-delay: -3.2s; }
 .sky-light { width: 2.5%; height: 1.5%; }
 .sky-light--one { left: 31.7%; top: 14.4%; }
 .sky-light--two { left: 59.1%; top: 5.9%; animation-delay: -2s; }
@@ -432,11 +441,12 @@ html[data-theme="dark"] .opening-art { opacity: .08; }
   .invitation { scroll-behavior: auto; }
   .opening, .opening * { animation: none !important; transition: none !important; }
   .hanging-layer { --sway-angle: 1deg; animation-duration: calc(var(--sway-duration, 6s) * 1.6); }
-  .hanging-layer[data-layer^="mehendi-"] { --sway-angle: 1.5deg; }
+  .hanging-layer[data-layer^="mehendi-"],
+  .hanging-layer[data-layer^="baraat-"] { --sway-angle: 1.5deg; }
   .foliage-layer { --breeze-angle: .6deg; animation-duration: calc(var(--sway-duration, 9s) * 1.6); }
   .butterfly { animation: butterfly-hover 24s ease-in-out infinite; }
   .flying-birds { left: 34%; animation: butterfly-hover 28s ease-in-out infinite; }
   .petal { display: none; }
-  .lantern-glow, .light-halo, .sky-light, .festive-light { animation-duration: 10s; }
+  .lantern-glow, .sky-light, .festive-light { animation-duration: 10s; }
 }
 @keyframes butterfly-hover { 0%, 100% { transform: translate(0, 0) rotate(-2deg); } 50% { transform: translate(5px, -4px) rotate(2deg); } }

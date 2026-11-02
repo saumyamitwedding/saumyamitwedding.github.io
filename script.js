@@ -251,12 +251,27 @@ saveButton.addEventListener("click", () => {
     lines.push(
       "BEGIN:VEVENT",
       `UID:saumya-amit-2026-${scene.id}@wedding.invalid`,
-      `DTSTAMP:${stamp}`,
-      `DTSTART:${calendarTimestamp(new Date(scene.querySelector("time").dateTime))}`,
-      `SUMMARY:${escapeCalendarText(scene.dataset.calendarTitle)}`,
-      `LOCATION:${escapeCalendarText(scene.dataset.calendarLocation)}`,
-      "END:VEVENT"
+      `DTSTAMP:${stamp}`
     );
+    const start = scene.querySelector("time").dateTime;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(start)) {
+      const end = new Date(`${start}T00:00:00Z`);
+      end.setUTCDate(end.getUTCDate() + 1);
+      lines.push(
+        `DTSTART;VALUE=DATE:${start.replace(/-/g, "")}`,
+        `DTEND;VALUE=DATE:${end.toISOString().slice(0, 10).replace(/-/g, "")}`
+      );
+    } else {
+      lines.push(`DTSTART:${calendarTimestamp(new Date(start))}`);
+    }
+    lines.push(
+      `SUMMARY:${escapeCalendarText(scene.dataset.calendarTitle)}`,
+      `LOCATION:${escapeCalendarText(scene.dataset.calendarLocation)}`
+    );
+    if (scene.dataset.calendarDescription) {
+      lines.push(`DESCRIPTION:${escapeCalendarText(scene.dataset.calendarDescription)}`);
+    }
+    lines.push("END:VEVENT");
   }
   lines.push("END:VCALENDAR");
   const file = new Blob([lines.map(foldCalendarLine).join("\r\n") + "\r\n"], { type: "text/calendar;charset=utf-8" });

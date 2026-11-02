@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="With our families, we invite you to celebrate the wedding of Saumya and Amit. Join us in Meerut, 1–3 December 2026.">
+  <meta name="description" content="With our families, we invite you to celebrate the wedding of Saumya and Amit. Join us in Meerut, 30 November - 3 December 2026.">
   <meta name="robots" content="noindex, nofollow">
   <title>Saumya &amp; Amit · Our Wedding Invitation</title>
   <script>
@@ -13,6 +13,10 @@
         param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       document.documentElement.setAttribute("data-theme", theme);
     })();
+    // The invitation defaults to light; an explicit preview theme still takes precedence.
+    if (!new URLSearchParams(window.location.search).get("scoutTheme")) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
   </script>
   <style>
     :root {
@@ -69,10 +73,10 @@
     }
   </style>
   <link rel="stylesheet" href="assets/fonts/wedding-fonts.css?v=3">
-  <link rel="stylesheet" href="assets/processed/page-colors.css?v=4">
-  <link rel="stylesheet" href="styles.css?v=4">
-  <link rel="stylesheet" href="assets/processed/layers.css?v=3">
-  <script src="script.js?v=3" defer></script>
+  <link rel="stylesheet" href="assets/processed/page-colors.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="assets/processed/layers.css?v=5">
+  <script src="script.js?v=5" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#invitation">Skip to the invitation</a>
@@ -109,10 +113,10 @@
     <svg class="lotus-mark" aria-hidden="true"><use href="#lotus"/></svg>
     <p class="eyebrow">A celebration of love</p>
     <p class="desktop-names">Saumya <i>&amp;</i> Amit</p>
-    <p class="desktop-date">01 &mdash; 03 December 2026<br>Meerut, India</p>
+    <p class="desktop-date">30 Nov &mdash; 03 Dec 2026<br>Meerut, India</p>
     <nav class="chapter-links" aria-label="Chapters">
       <a href="#invitation-cover" data-chapter="invitation" aria-current="location"><span>01</span> The invitation</a>
-      <a href="#mehendi" data-chapter="celebrations"><span>02</span> The celebrations</a>
+      <a href="#haldi" data-chapter="celebrations"><span>02</span> The celebrations</a>
       <a href="#venues" data-chapter="venues"><span>03</span> Find your way</a>
     </nav>
     <p class="desktop-postscript">A little invitation.<br>A lifetime of love.</p>
@@ -167,8 +171,8 @@
           <svg class="lotus-mark" aria-hidden="true"><use href="#lotus"/></svg>
           <p class="eyebrow">Two hearts. Two families.</p>
           <h2 id="story-title" tabindex="-1">One beautiful<br>beginning.</h2>
-          <p class="story-prose">With full hearts and the blessings of our loved ones, we begin our forever. Join us for three days of colour, laughter, traditions, and togetherness.</p>
-          <p class="story-dates">1 &mdash; 3 December 2026</p>
+          <p class="story-prose">With full hearts and the blessings of our loved ones, we begin our forever. Join us for four days of colour, laughter, traditions, and togetherness.</p>
+          <p class="story-dates">30 November &mdash; 3 December 2026</p>
           <div class="countdown-wrap" id="countdown" hidden>
             <p class="eyebrow" id="countdown-title">Until our forever begins</p>
             <div class="countdown" role="timer" aria-label="Time until the wedding ceremony">
@@ -181,34 +185,7 @@
         </div>
       </section>
 
-      <section class="scene scene--mehendi" id="mehendi" data-group="celebrations" data-calendar-title="Saumya and Amit - Mehendi Ceremony" data-calendar-location="Bhardwaj Residence, Muraripuram, Meerut" aria-labelledby="mehendi-title">
-        <div class="scene-visual" aria-hidden="true">
-          <div class="scene-canvas">
-            <img class="scene-art" src="assets/processed/03-mehendi.webp" alt="" width="941" height="1672" decoding="async">
-            <div class="hanging-layer ambient" data-layer="mehendi-lantern-high"><img src="assets/processed/mehendi-lantern-high.webp" alt=""><span class="lantern-glow glow--gold ambient"></span></div>
-            <div class="hanging-layer ambient" data-layer="mehendi-lantern-low"><img src="assets/processed/mehendi-lantern-low.webp" alt=""><span class="lantern-glow glow--rose ambient"></span></div>
-            <span class="light-halo light-halo--right glow--gold ambient"></span>
-            <span class="light-halo light-halo--low glow--rose ambient"></span>
-            <div class="festive-lights" aria-hidden="true">
-              <i class="festive-light ambient"></i><i class="festive-light ambient"></i><i class="festive-light ambient"></i>
-              <i class="festive-light ambient"></i><i class="festive-light ambient"></i><i class="festive-light ambient"></i>
-            </div>
-          </div>
-        </div>
-        <div class="scene-copy">
-          <p class="eyebrow">The celebrations &middot; 01</p>
-          <h2 id="mehendi-title" tabindex="-1">Mehendi</h2>
-          <p class="occasion-note">A little colour. A lot of love.</p>
-          <time class="event-date" datetime="2026-12-01T19:00:00+05:30">
-            <span><small>Tuesday</small><strong>01 December</strong><small>2026</small></span>
-            <span><small>Evening</small><strong>7:00 PM</strong><small>Onwards &middot; IST</small></span>
-          </time>
-          <p class="event-place">Bhardwaj Residence</p>
-          <p class="event-address">Muraripuram, Meerut</p>
-        </div>
-      </section>
-
-      <section class="scene scene--haldi" id="haldi" data-group="celebrations" data-calendar-title="Saumya and Amit - Haldi Ceremony" data-calendar-location="Bhardwaj Residence, Muraripuram, Meerut" aria-labelledby="haldi-title">
+      <section class="scene scene--haldi" id="haldi" data-group="celebrations" data-calendar-title="Saumya and Amit - Haldi Ceremony" data-calendar-location="Bhardwaj Residence, Murari Puram, Meerut" aria-labelledby="haldi-title">
         <div class="scene-visual" aria-hidden="true">
           <div class="scene-canvas">
             <img class="scene-art" src="assets/processed/04-haldi.webp" alt="" width="768" height="1365" decoding="async">
@@ -216,22 +193,54 @@
           </div>
         </div>
         <div class="scene-copy">
-          <p class="eyebrow">The celebrations &middot; 02</p>
+          <p class="eyebrow">The celebrations &middot; 01</p>
           <h2 id="haldi-title" tabindex="-1">Haldi</h2>
           <p class="occasion-note">A morning dipped in sunshine.</p>
-          <time class="event-date" datetime="2026-12-02T11:00:00+05:30">
-            <span><small>Wednesday</small><strong>02 December</strong><small>2026</small></span>
+          <time class="event-date" datetime="2026-11-30T11:00:00+05:30">
+            <span><small>Monday</small><strong>30 November</strong><small>2026</small></span>
             <span><small>Morning</small><strong>11:00 AM</strong><small>Onwards &middot; IST</small></span>
           </time>
           <p class="event-place">Bhardwaj Residence</p>
-          <p class="event-address">Muraripuram, Meerut</p>
+          <p class="event-address">Murari Puram, Meerut</p>
+        </div>
+      </section>
+
+      <section class="scene scene--mehendi" id="mehendi" data-group="celebrations" data-calendar-title="Saumya and Amit - Mehendi Ceremony" data-calendar-location="Bhardwaj Residence, Murari Puram, Meerut" aria-labelledby="mehendi-title">
+        <div class="scene-visual" aria-hidden="true">
+          <div class="scene-canvas">
+            <img class="scene-art" src="assets/processed/03-mehendi.webp?v=5" alt="" width="941" height="1672" decoding="async">
+            <div class="hanging-layer ambient" data-layer="mehendi-lantern-high"><img src="assets/processed/mehendi-lantern-high.webp" alt=""><span class="lantern-glow glow--gold ambient"></span></div>
+            <div class="hanging-layer ambient" data-layer="mehendi-lantern-low"><img src="assets/processed/mehendi-lantern-low.webp" alt=""><span class="lantern-glow glow--rose ambient"></span></div>
+            <div class="hanging-layer ambient" data-layer="mehendi-lantern-right-high"><img src="assets/processed/mehendi-lantern-right-high.webp" alt=""><span class="lantern-glow glow--gold ambient"></span></div>
+            <div class="hanging-layer ambient" data-layer="mehendi-lantern-right-low"><img src="assets/processed/mehendi-lantern-right-low.webp" alt=""><span class="lantern-glow glow--rose ambient"></span></div>
+            <div class="festive-lights" aria-hidden="true">
+              <i class="festive-light ambient"></i><i class="festive-light ambient"></i><i class="festive-light ambient"></i>
+              <i class="festive-light ambient"></i><i class="festive-light ambient"></i><i class="festive-light ambient"></i>
+            </div>
+          </div>
+        </div>
+        <div class="scene-copy">
+          <p class="eyebrow">The celebrations &middot; 02</p>
+          <h2 id="mehendi-title" tabindex="-1">Mehendi</h2>
+          <p class="occasion-note">A little colour. A lot of love.</p>
+          <time class="event-date" datetime="2026-12-01T19:00:00+05:30">
+            <span><small>Tuesday</small><strong>01 December</strong><small>2026</small></span>
+            <span><small>Evening</small><strong>7:00 PM</strong><small>Onwards &middot; IST</small></span>
+          </time>
+          <p class="event-place">Bhardwaj Residence</p>
+          <p class="event-address">Murari Puram, Meerut</p>
         </div>
       </section>
 
       <section class="scene scene--baraat" id="baraat" data-group="celebrations" data-calendar-title="Saumya and Amit - Arrival of the Groom" data-calendar-location="The Mansion Banquet, Ansals Sushant City, Meerut, Uttar Pradesh, India" aria-labelledby="baraat-title">
         <div class="scene-visual" aria-hidden="true">
           <div class="scene-canvas">
-            <img class="scene-art" src="assets/processed/05-baraat.webp" alt="" width="768" height="1365" decoding="async">
+            <img class="scene-art" src="assets/processed/05-baraat.webp?v=5" alt="" width="768" height="1365" decoding="async">
+            <div class="hanging-layer ambient" data-layer="baraat-bell-left-low"><img src="assets/processed/baraat-bell-left-low.webp" alt=""></div>
+            <div class="hanging-layer ambient" data-layer="baraat-bell-left-high"><img src="assets/processed/baraat-bell-left-high.webp" alt=""></div>
+            <div class="hanging-layer ambient" data-layer="baraat-bell-right-high"><img src="assets/processed/baraat-bell-right-high.webp" alt=""></div>
+            <div class="hanging-layer ambient" data-layer="baraat-bell-right-middle"><img src="assets/processed/baraat-bell-right-middle.webp" alt=""></div>
+            <div class="hanging-layer ambient" data-layer="baraat-bell-right-low"><img src="assets/processed/baraat-bell-right-low.webp" alt=""></div>
             <div class="petals petals--baraat" aria-hidden="true"><i class="petal ambient"></i><i class="petal ambient"></i><i class="petal ambient"></i></div>
           </div>
         </div>
@@ -277,7 +286,7 @@
         </div>
       </section>
 
-      <section class="scene scene--vidaai" id="vidaai" data-group="celebrations" data-calendar-title="Saumya and Amit - Bridal Farewell (Vidaai)" data-calendar-location="Bhardwaj Residence, Muraripuram, Meerut" aria-labelledby="vidaai-title">
+      <section class="scene scene--vidaai" id="vidaai" data-group="celebrations" data-calendar-title="Saumya and Amit - Bridal Farewell (Vidaai)" data-calendar-location="Bhardwaj Residence, Murari Puram, Meerut" data-calendar-description="In the shadows of the stars. A date-only reminder; no fixed start time is specified." aria-labelledby="vidaai-title">
         <div class="scene-visual" aria-hidden="true">
           <div class="scene-canvas">
             <img class="scene-art" src="assets/processed/07-vidaai.webp" alt="" width="768" height="1365" decoding="async">
@@ -290,12 +299,12 @@
           <p class="eyebrow">A new chapter &middot; 05</p>
           <h2 id="vidaai-title" tabindex="-1">Vidaai</h2>
           <p class="occasion-note">Goodbyes filled with blessings.<br>A journey filled with love.</p>
-          <time class="event-date" datetime="2026-12-03T09:00:00+05:30">
+          <time class="event-date" datetime="2026-12-03">
             <span><small>Thursday</small><strong>03 December</strong><small>2026</small></span>
-            <span><small>Morning</small><strong>9:00 AM</strong><small>IST</small></span>
+            <span class="poetic-time"><strong>In the shadows of the stars</strong></span>
           </time>
           <p class="event-place">Bhardwaj Residence</p>
-          <p class="event-address">Muraripuram, Meerut</p>
+          <p class="event-address">Murari Puram, Meerut</p>
         </div>
       </section>
 
@@ -320,9 +329,11 @@
             <a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=The%20Mansion%20Banquet%20Ansals%20Sushant%20City%20Meerut" target="_blank" rel="noopener noreferrer" aria-label="Search for The Mansion Banquet on Google Maps, opens in a new tab">Open in Google Maps <span aria-hidden="true">&nearr;</span></a>
           </div>
           <p class="map-help">Drag or zoom inside the map to explore.<br>Google Maps needs an internet connection.</p>
+        </div>
+        <footer class="invitation-signature">
           <p class="sign-off">With love,</p>
           <p class="signature">Saumya <i>&amp;</i> Amit</p>
-        </div>
+        </footer>
       </section>
     </main>
     </div>
@@ -368,7 +379,7 @@
         <span class="wax-seal" aria-hidden="true">S <i>&amp;</i> A</span>
       </button>
       <p class="opening-hint">Tap the seal to open</p>
-      <p class="opening-date">01 &mdash; 03 December 2026 &middot; Meerut</p>
+      <p class="opening-date">30 Nov &mdash; 03 Dec 2026 &middot; Meerut</p>
       <button class="skip-opening text-button" id="skip-opening" type="button">Go straight to the invitation <span aria-hidden="true">&rarr;</span></button>
     </div>
   </dialog>
