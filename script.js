@@ -2,6 +2,14 @@
 
 const invitation = document.getElementById("invitation");
 const scenes = [...invitation.querySelectorAll(".scene")];
+const chapterBlends = scenes.slice(1).map(() => {
+  const blend = document.createElement("div");
+  blend.className = "chapter-blend";
+  blend.setAttribute("aria-hidden", "true");
+  blend.append(document.createElement("span"));
+  invitation.append(blend);
+  return blend;
+});
 const opening = document.getElementById("opening");
 const nextButton = document.getElementById("next-chapter");
 const saveButton = document.getElementById("save-dates");
@@ -105,7 +113,15 @@ function renderInvitation() {
   scrollFrame = 0;
   if (layoutDirty) {
     scenePositions = scenes.map((scene) => scene.offsetTop);
+    const sceneBottoms = scenes.map((scene, index) => scenePositions[index] + scene.offsetHeight);
     viewportHeight = invitation.clientHeight;
+    chapterBlends.forEach((blend, index) => {
+      const overlap = Math.max(0, sceneBottoms[index] - scenePositions[index + 1]);
+      const midpoint = (sceneBottoms[index] + scenePositions[index + 1]) / 2;
+      const reach = Math.min(72, Math.max(24, overlap * 1.1));
+      blend.style.top = `${midpoint - reach}px`;
+      blend.style.height = `${reach * 2}px`;
+    });
     layoutDirty = false;
   }
   const top = invitation.scrollTop;

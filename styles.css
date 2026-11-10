@@ -97,8 +97,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 /* Blend only the adjoining artwork edges, without inserting a blurred spacer. */
 .scene + .scene {
   margin-top: calc(-1 * var(--edge-overlap));
-  -webkit-mask-image: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--cp-text) 16%, transparent) calc(var(--edge-overlap) * .25), color-mix(in srgb, var(--cp-text) 50%, transparent) calc(var(--edge-overlap) * .5), color-mix(in srgb, var(--cp-text) 84%, transparent) calc(var(--edge-overlap) * .75), var(--cp-text) var(--edge-overlap));
-  mask-image: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--cp-text) 16%, transparent) calc(var(--edge-overlap) * .25), color-mix(in srgb, var(--cp-text) 50%, transparent) calc(var(--edge-overlap) * .5), color-mix(in srgb, var(--cp-text) 84%, transparent) calc(var(--edge-overlap) * .75), var(--cp-text) var(--edge-overlap));
+  -webkit-mask-image: linear-gradient(to bottom, transparent, var(--cp-text) var(--edge-overlap));
+  mask-image: linear-gradient(to bottom, transparent, var(--cp-text) var(--edge-overlap));
   mask-mode: alpha;
 }
 .scene::before {
@@ -118,6 +118,22 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   overflow: hidden;
   pointer-events: none;
   container-type: size;
+}
+/* Outside the scene masks, the glass can sample both pages at their 50/50 join. */
+.chapter-blend {
+  position: absolute;
+  inset-inline: 0;
+  height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.chapter-blend > span {
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(clamp(12px, 4cqw, 18px));
+  backdrop-filter: blur(clamp(12px, 4cqw, 18px));
+  -webkit-mask-image: linear-gradient(to bottom, transparent, var(--cp-text) 50%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, var(--cp-text) 50%, transparent);
 }
 .scene-canvas {
   position: absolute;
