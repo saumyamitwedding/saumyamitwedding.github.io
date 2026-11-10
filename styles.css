@@ -229,7 +229,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .hero-date { margin-top: 14px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .hero-date p { color: var(--cp-accent); font-family: var(--wedding-display); font-size: clamp(16px, 4.5cqw, 21px); font-weight: 600; line-height: 1.3; letter-spacing: .4px; white-space: nowrap; }
 .hero-date p span { padding: 0 4px; }
-.hero-date > span { display: block; font-size: 13.5px; font-weight: 400; line-height: 1.4; letter-spacing: .5px; color: var(--cp-text); }
+.hero-date > span { display: block; font-size: 11px; letter-spacing: .4px; color: var(--cp-text); }
 
 .scene--story { padding-block: 32px max(56px, var(--page-clearance)); }
 .scene--story h2 { font-size: 46px; margin-bottom: 28px; }
