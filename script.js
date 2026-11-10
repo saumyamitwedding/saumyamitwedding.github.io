@@ -2,6 +2,14 @@
 
 const invitation = document.getElementById("invitation");
 const scenes = [...invitation.querySelectorAll(".scene")];
+const chapterBlends = scenes.slice(1).map(() => {
+  const blend = document.createElement("div");
+  blend.className = "chapter-blend";
+  blend.setAttribute("aria-hidden", "true");
+  for (let layer = 0; layer < 3; layer += 1) blend.append(document.createElement("span"));
+  invitation.append(blend);
+  return blend;
+});
 const opening = document.getElementById("opening");
 const nextButton = document.getElementById("next-chapter");
 const saveButton = document.getElementById("save-dates");
@@ -105,7 +113,19 @@ function renderInvitation() {
   scrollFrame = 0;
   if (layoutDirty) {
     scenePositions = scenes.map((scene) => scene.offsetTop);
+    const sceneBottoms = scenes.map((scene, index) => scenePositions[index] + scene.offsetHeight);
     viewportHeight = invitation.clientHeight;
+    chapterBlends.forEach((blend, index) => {
+      const bottom = sceneBottoms[index];
+      const nextTop = scenePositions[index + 1];
+      const gap = Math.max(0, nextTop - bottom);
+      const midpoint = (bottom + nextTop) / 2;
+      const fadeOut = parseFloat(window.getComputedStyle(scenes[index]).getPropertyValue("--fade-bottom")) || 68;
+      const fadeIn = parseFloat(window.getComputedStyle(scenes[index + 1]).getPropertyValue("--fade-top")) || 68;
+      const reach = gap / 2 + Math.max(fadeOut, fadeIn);
+      blend.style.top = `${midpoint - reach}px`;
+      blend.style.height = `${reach * 2}px`;
+    });
     layoutDirty = false;
   }
   const top = invitation.scrollTop;
