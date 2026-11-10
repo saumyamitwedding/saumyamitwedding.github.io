@@ -6,7 +6,7 @@ const chapterBlends = scenes.slice(1).map(() => {
   const blend = document.createElement("div");
   blend.className = "chapter-blend";
   blend.setAttribute("aria-hidden", "true");
-  blend.append(document.createElement("span"));
+  for (let layer = 0; layer < 3; layer += 1) blend.append(document.createElement("span"));
   invitation.append(blend);
   return blend;
 });
@@ -116,9 +116,13 @@ function renderInvitation() {
     const sceneBottoms = scenes.map((scene, index) => scenePositions[index] + scene.offsetHeight);
     viewportHeight = invitation.clientHeight;
     chapterBlends.forEach((blend, index) => {
-      const overlap = Math.max(0, sceneBottoms[index] - scenePositions[index + 1]);
-      const midpoint = (sceneBottoms[index] + scenePositions[index + 1]) / 2;
-      const reach = Math.min(72, Math.max(24, overlap * 1.1));
+      const bottom = sceneBottoms[index];
+      const nextTop = scenePositions[index + 1];
+      const gap = Math.max(0, nextTop - bottom);
+      const midpoint = (bottom + nextTop) / 2;
+      const fadeOut = parseFloat(window.getComputedStyle(scenes[index]).getPropertyValue("--fade-bottom")) || 68;
+      const fadeIn = parseFloat(window.getComputedStyle(scenes[index + 1]).getPropertyValue("--fade-top")) || 68;
+      const reach = gap / 2 + Math.max(fadeOut, fadeIn);
       blend.style.top = `${midpoint - reach}px`;
       blend.style.height = `${reach * 2}px`;
     });

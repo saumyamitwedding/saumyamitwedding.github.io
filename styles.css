@@ -46,6 +46,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .page-shell {
   --viewport-height: min(820px, calc(100svh - 128px));
   --page-clearance: 96px;
+  --art-edge-fade: clamp(60px, 16cqw, 74px);
+  --color-bridge: clamp(32px, 9cqw, 42px);
   position: relative;
   width: min(100%, 460px);
   min-width: 0;
@@ -84,7 +86,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .invitation::-webkit-scrollbar { display: none; }
 
 .scene {
-  --edge-overlap: clamp(28px, 10cqw, 48px);
+  --fade-top: var(--art-edge-fade);
+  --fade-bottom: var(--art-edge-fade);
   position: relative;
   display: grid;
   align-items: center;
@@ -94,13 +97,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   padding-block: 32px;
   isolation: isolate;
 }
-/* Blend only the adjoining artwork edges, without inserting a blurred spacer. */
-.scene + .scene {
-  margin-top: calc(-1 * var(--edge-overlap));
-  -webkit-mask-image: linear-gradient(to bottom, transparent, var(--cp-text) var(--edge-overlap));
-  mask-image: linear-gradient(to bottom, transparent, var(--cp-text) var(--edge-overlap));
-  mask-mode: alpha;
-}
+.scene:first-child { --fade-top: 0px; }
+.scene:last-child { --fade-bottom: 0px; }
 .scene::before {
   content: "";
   position: absolute;
@@ -111,6 +109,19 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
+.scene:not(:last-child) { margin-bottom: var(--color-bridge); }
+.scene:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(100% - 2px);
+  inset-inline: 0;
+  height: calc(var(--color-bridge) + 4px);
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--cp-edge-from) 0 12px, var(--cp-edge-to) calc(100% - 12px) 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
 .scene-visual {
   position: absolute;
   inset: 0;
@@ -118,8 +129,51 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   overflow: hidden;
   pointer-events: none;
   container-type: size;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0px,
+    color-mix(in srgb, var(--cp-text) 10%, transparent) calc(var(--fade-top) * .14),
+    color-mix(in srgb, var(--cp-text) 22%, transparent) calc(var(--fade-top) * .28),
+    color-mix(in srgb, var(--cp-text) 36%, transparent) calc(var(--fade-top) * .42),
+    color-mix(in srgb, var(--cp-text) 50%, transparent) calc(var(--fade-top) * .56),
+    color-mix(in srgb, var(--cp-text) 66%, transparent) calc(var(--fade-top) * .70),
+    color-mix(in srgb, var(--cp-text) 82%, transparent) calc(var(--fade-top) * .84),
+    color-mix(in srgb, var(--cp-text) 93%, transparent) calc(var(--fade-top) * .93),
+    var(--cp-text) var(--fade-top),
+    var(--cp-text) calc(100% - var(--fade-bottom)),
+    color-mix(in srgb, var(--cp-text) 93%, transparent) calc(100% - var(--fade-bottom) * .93),
+    color-mix(in srgb, var(--cp-text) 82%, transparent) calc(100% - var(--fade-bottom) * .84),
+    color-mix(in srgb, var(--cp-text) 66%, transparent) calc(100% - var(--fade-bottom) * .70),
+    color-mix(in srgb, var(--cp-text) 50%, transparent) calc(100% - var(--fade-bottom) * .56),
+    color-mix(in srgb, var(--cp-text) 36%, transparent) calc(100% - var(--fade-bottom) * .42),
+    color-mix(in srgb, var(--cp-text) 22%, transparent) calc(100% - var(--fade-bottom) * .28),
+    color-mix(in srgb, var(--cp-text) 10%, transparent) calc(100% - var(--fade-bottom) * .14),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0px,
+    color-mix(in srgb, var(--cp-text) 10%, transparent) calc(var(--fade-top) * .14),
+    color-mix(in srgb, var(--cp-text) 22%, transparent) calc(var(--fade-top) * .28),
+    color-mix(in srgb, var(--cp-text) 36%, transparent) calc(var(--fade-top) * .42),
+    color-mix(in srgb, var(--cp-text) 50%, transparent) calc(var(--fade-top) * .56),
+    color-mix(in srgb, var(--cp-text) 66%, transparent) calc(var(--fade-top) * .70),
+    color-mix(in srgb, var(--cp-text) 82%, transparent) calc(var(--fade-top) * .84),
+    color-mix(in srgb, var(--cp-text) 93%, transparent) calc(var(--fade-top) * .93),
+    var(--cp-text) var(--fade-top),
+    var(--cp-text) calc(100% - var(--fade-bottom)),
+    color-mix(in srgb, var(--cp-text) 93%, transparent) calc(100% - var(--fade-bottom) * .93),
+    color-mix(in srgb, var(--cp-text) 82%, transparent) calc(100% - var(--fade-bottom) * .84),
+    color-mix(in srgb, var(--cp-text) 66%, transparent) calc(100% - var(--fade-bottom) * .70),
+    color-mix(in srgb, var(--cp-text) 50%, transparent) calc(100% - var(--fade-bottom) * .56),
+    color-mix(in srgb, var(--cp-text) 36%, transparent) calc(100% - var(--fade-bottom) * .42),
+    color-mix(in srgb, var(--cp-text) 22%, transparent) calc(100% - var(--fade-bottom) * .28),
+    color-mix(in srgb, var(--cp-text) 10%, transparent) calc(100% - var(--fade-bottom) * .14),
+    transparent 100%
+  );
+  mask-mode: alpha;
 }
-/* Outside the scene masks, the glass can sample both pages at their 50/50 join. */
+/* Progressive glass blur tapers 10% -> 20% -> 50% at the seam and back out. */
 .chapter-blend {
   position: absolute;
   inset-inline: 0;
@@ -130,10 +184,22 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .chapter-blend > span {
   position: absolute;
   inset: 0;
-  -webkit-backdrop-filter: blur(clamp(12px, 4cqw, 18px));
-  backdrop-filter: blur(clamp(12px, 4cqw, 18px));
-  -webkit-mask-image: linear-gradient(to bottom, transparent, var(--cp-text) 50%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, var(--cp-text) 50%, transparent);
+  -webkit-backdrop-filter: blur(clamp(2px, .6cqw, 3px));
+  backdrop-filter: blur(clamp(2px, .6cqw, 3px));
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--cp-text) 25%, transparent) 15%, color-mix(in srgb, var(--cp-text) 75%, transparent) 35%, var(--cp-text) 50%, color-mix(in srgb, var(--cp-text) 75%, transparent) 65%, color-mix(in srgb, var(--cp-text) 25%, transparent) 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--cp-text) 25%, transparent) 15%, color-mix(in srgb, var(--cp-text) 75%, transparent) 35%, var(--cp-text) 50%, color-mix(in srgb, var(--cp-text) 75%, transparent) 65%, color-mix(in srgb, var(--cp-text) 25%, transparent) 85%, transparent 100%);
+}
+.chapter-blend > span:nth-child(2) {
+  -webkit-backdrop-filter: blur(clamp(4px, 1.4cqw, 6px));
+  backdrop-filter: blur(clamp(4px, 1.4cqw, 6px));
+  -webkit-mask-image: linear-gradient(to bottom, transparent 12%, color-mix(in srgb, var(--cp-text) 40%, transparent) 28%, var(--cp-text) 50%, color-mix(in srgb, var(--cp-text) 40%, transparent) 72%, transparent 88%);
+  mask-image: linear-gradient(to bottom, transparent 12%, color-mix(in srgb, var(--cp-text) 40%, transparent) 28%, var(--cp-text) 50%, color-mix(in srgb, var(--cp-text) 40%, transparent) 72%, transparent 88%);
+}
+.chapter-blend > span:nth-child(3) {
+  -webkit-backdrop-filter: blur(clamp(9px, 3cqw, 13px));
+  backdrop-filter: blur(clamp(9px, 3cqw, 13px));
+  -webkit-mask-image: linear-gradient(to bottom, transparent 26%, color-mix(in srgb, var(--cp-text) 60%, transparent) 40%, var(--cp-text) 50%, color-mix(in srgb, var(--cp-text) 60%, transparent) 60%, transparent 74%);
+  mask-image: linear-gradient(to bottom, transparent 26%, color-mix(in srgb, var(--cp-text) 60%, transparent) 40%, var(--cp-text) 50%, color-mix(in srgb, var(--cp-text) 60%, transparent) 60%, transparent 74%);
 }
 .scene-canvas {
   position: absolute;
@@ -154,16 +220,16 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .scene--hero .scene-copy { --ganesha-size: clamp(64px, 20cqw, 96px); position: relative; padding-left: 24px; }
 .hero-ganesha { position: absolute; top: calc(12px - var(--ganesha-size)); left: calc(50% + 12px); transform: translateX(-50%); width: var(--ganesha-size); height: auto; }
 .scene--hero .eyebrow { font-size: 9px; letter-spacing: 1.7px; margin-bottom: 12px; }
-.scene--hero .couple-names,
+.scene--hero .couple-names { position: relative; top: 20px; }
 .scene--hero .hero-invitation,
-.scene--hero .hero-date { position: relative; top: 24px; }
+.scene--hero .hero-date { position: relative; top: 10px; padding-left: clamp(28px, 10cqw, 46px); }
 .couple-names { color: var(--cp-accent); font-family: var(--wedding-script); font-size: 82px; font-weight: 400; line-height: 1; letter-spacing: 0; }
 .ampersand { display: block; font-family: var(--wedding-display); font-size: 38px; line-height: 1.15; font-weight: 400; font-style: italic; letter-spacing: 0; }
-.hero-invitation { margin-top: 16px; font-family: var(--wedding-display); font-size: 17px; font-style: italic; line-height: 1.3; color: var(--cp-text-muted); }
-.hero-date { margin-top: 20px; }
-.hero-date p { color: var(--cp-accent); font-family: var(--wedding-display); font-size: clamp(15px, 4.3cqw, 21px); font-weight: 500; line-height: 1.4; letter-spacing: .6px; }
+.hero-invitation { margin-top: 14px; font-family: var(--wedding-display); font-size: 17px; font-style: italic; line-height: 1.3; color: var(--cp-text-muted); }
+.hero-date { margin-top: 14px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.hero-date p { color: var(--cp-accent); font-family: var(--wedding-display); font-size: clamp(16px, 4.5cqw, 21px); font-weight: 600; line-height: 1.3; letter-spacing: .4px; white-space: nowrap; }
 .hero-date p span { padding: 0 4px; }
-.hero-date > span { display: block; margin-top: 6px; font-size: 11px; letter-spacing: .4px; }
+.hero-date > span { display: block; font-size: 13.5px; font-weight: 700; line-height: 1.4; letter-spacing: .5px; color: var(--cp-text); }
 
 .scene--story { padding-block: 32px max(56px, var(--page-clearance)); }
 .scene--story h2 { font-size: 46px; margin-bottom: 28px; }
@@ -191,9 +257,9 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .map-link svg { width: 15px; height: 15px; }
 .map-link:hover { background: var(--cp-accent-soft); }
 .map-link > span { margin-left: 8px; }
-.scene--mehendi { --edge-overlap: clamp(36px, 12cqw, 56px); padding-block: 32px 128px; }
+.scene--mehendi { padding-block: 32px 128px; }
 .scene--haldi { padding-block: 32px max(80px, var(--page-clearance)); }
-.scene--baraat { --edge-overlap: clamp(20px, 6cqw, 28px); padding-block: 32px max(88px, var(--page-clearance)); }
+.scene--baraat { --fade-top: clamp(36px, 10cqw, 46px); padding-block: 32px max(88px, var(--page-clearance)); }
 .origin-line { font-size: 11px; line-height: 1.75; color: var(--cp-text-muted); }
 .journey-arrow { display: block; margin: 8px 0; font-size: 19px; color: var(--cp-accent); }
 .scene--baraat .event-date { margin-top: 22px; margin-bottom: 20px; }
@@ -203,7 +269,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .scene--vidaai { padding-block: 32px 196px; }
 .scene--vidaai .occasion-note { margin-top: 12px; }
 
-.scene--venues { --edge-overlap: clamp(36px, 12cqw, 56px); padding-block: 112px 180px; align-items: start; }
+.scene--venues { padding-block: 112px 180px; align-items: start; }
 .scene--venues .scene-copy { width: calc(100% - 64px); padding-block: 0; }
 .scene--venues .scene-copy > .eyebrow { margin-bottom: 12px; }
 .scene--venues h2 { font-size: 44px; }
@@ -216,9 +282,46 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .map-frame { height: 240px; margin-top: 16px; border: 1px solid var(--cp-border); border-radius: 10px; overflow: hidden; background: var(--cp-surface-soft); }
 .map-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
 .map-help { font-size: 10px; line-height: 1.8; color: var(--cp-text-muted); margin-top: 16px; }
-.invitation-signature { position: absolute; bottom: 6%; left: 50%; transform: translateX(-50%); width: calc(100% - 64px); z-index: 1; text-align: center; }
-.sign-off { font-size: 11px; color: var(--cp-text-muted); }
-.signature { font-family: var(--wedding-script); font-size: 38px; font-weight: 400; line-height: 1; color: var(--cp-text); margin-top: 8px; white-space: nowrap; }
+.invitation-signature {
+  position: absolute;
+  bottom: 5.2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(calc(100% - 80px), 270px);
+  padding: 14px 20px 12px;
+  z-index: 1;
+  text-align: center;
+  isolation: isolate;
+}
+.invitation-signature::before {
+  content: "";
+  position: absolute;
+  inset: -12px -38px;
+  z-index: -1;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--cp-bg-elevated) 72%, transparent);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  -webkit-mask-image: radial-gradient(closest-side, var(--cp-text) 38%, color-mix(in srgb, var(--cp-text) 58%, transparent) 70%, transparent 100%);
+  mask-image: radial-gradient(closest-side, var(--cp-text) 38%, color-mix(in srgb, var(--cp-text) 58%, transparent) 70%, transparent 100%);
+}
+.sign-off {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: var(--cp-text);
+  text-shadow: 0 0 10px var(--cp-bg-elevated), 0 1px 6px var(--cp-bg-elevated);
+}
+.signature {
+  font-family: var(--wedding-script);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--cp-text);
+  margin-top: 4px;
+  white-space: nowrap;
+  text-shadow: 0 0 12px var(--cp-bg-elevated), 0 1px 8px var(--cp-bg-elevated);
+}
 .signature i { font-family: var(--wedding-display); font-size: 28px; padding: 0 4px; }
 
 .ambient { animation-play-state: running; }
