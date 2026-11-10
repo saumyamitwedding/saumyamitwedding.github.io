@@ -9,7 +9,6 @@
 
 /assets/*
 !/assets/leberch-piano-628075.mp3
-!/assets/page 2 - countdown page.webp
 !/assets/fonts/
 !/assets/processed/
 
@@ -22,45 +21,16 @@
 !/assets/fonts/wedding-fonts.css
 
 /assets/processed/*
-!/assets/processed/01-intro.webp
-!/assets/processed/02-countdown.webp
-!/assets/processed/03-mehendi.webp
-!/assets/processed/04-haldi.webp
-!/assets/processed/05-baraat.webp
-!/assets/processed/06-pheras.webp
-!/assets/processed/07-vidaai.webp
-!/assets/processed/08-venues.webp
-!/assets/processed/01-intro-edges.webp
-!/assets/processed/02-countdown-edges.webp
-!/assets/processed/03-mehendi-edges.webp
-!/assets/processed/04-haldi-edges.webp
-!/assets/processed/05-baraat-edges.webp
-!/assets/processed/06-pheras-edges.webp
-!/assets/processed/07-vidaai-edges.webp
-!/assets/processed/08-venues-edges.webp
-!/assets/processed/bridge-01-02.webp
-!/assets/processed/bridge-02-04.webp
-!/assets/processed/bridge-04-03.webp
-!/assets/processed/bridge-03-05.webp
-!/assets/processed/bridge-05-06.webp
-!/assets/processed/bridge-06-07.webp
-!/assets/processed/bridge-07-08.webp
-!/assets/processed/baraat-bell-left-high.webp
-!/assets/processed/baraat-bell-left-low.webp
-!/assets/processed/baraat-bell-right-high.webp
-!/assets/processed/baraat-bell-right-low.webp
-!/assets/processed/baraat-bell-right-middle.webp
+!/assets/processed/01-invitation-art.webp
+!/assets/processed/02-beginning-art.webp
+!/assets/processed/03-haldi-art.webp
+!/assets/processed/04-mehendi-art.webp
+!/assets/processed/05-baraat-art.webp
+!/assets/processed/06-pheras-art.webp
+!/assets/processed/07-vidaai-art.webp
+!/assets/processed/08-venue-art.webp
+!/assets/processed/birds-still.webp
 !/assets/processed/birds.webp
+!/assets/processed/butterfly-still.webp
 !/assets/processed/butterfly.webp
-!/assets/processed/countdown-lamp-left.webp
-!/assets/processed/countdown-lamp-right.webp
-!/assets/processed/intro-bell-left.webp
-!/assets/processed/intro-bell-right.webp
-!/assets/processed/layers.css
-!/assets/processed/mehendi-lantern-high.webp
-!/assets/processed/mehendi-lantern-low.webp
-!/assets/processed/mehendi-lantern-right-high.webp
-!/assets/processed/mehendi-lantern-right-low.webp
-!/assets/processed/page-colors.css
-!/assets/processed/pheras-leaves-left.webp
-!/assets/processed/pheras-leaves-right.webp
+!/assets/processed/ganesha-outline.svg

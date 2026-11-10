@@ -10,6 +10,9 @@ const themeButton = document.getElementById("theme-toggle");
 const music = document.getElementById("background-music");
 const musicButton = document.getElementById("music-toggle");
 const musicLabel = document.getElementById("music-label");
+const audioDock = document.getElementById("audio-dock");
+const audioStatus = document.getElementById("audio-status");
+const pageShell = document.querySelector(".page-shell");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const announcer = document.getElementById("announcer");
 
@@ -23,12 +26,17 @@ let viewportHeight = 0;
 let musicPreference = null;
 music.volume = 0.22;
 
+function showAudioNotice(message) {
+  audioStatus.textContent = message;
+  audioStatus.hidden = !message;
+}
+
 function updateMusicControl() {
   const playing = !music.paused && !music.error;
   musicButton.setAttribute("aria-pressed", String(playing));
   if (!musicButton.hasAttribute("data-error")) {
     musicLabel.textContent = playing ? "Music on" : "Music off";
-    musicButton.setAttribute("aria-label", playing ? "Turn background music off" : "Turn background music on");
+    musicButton.setAttribute("aria-label", playing ? "Pause background piano music" : "Play background piano music");
     musicButton.title = playing ? "Pause the background piano" : "Play the background piano";
   }
 }
@@ -39,35 +47,48 @@ function reportMusicError(message, error) {
   musicButton.setAttribute("aria-label", `${message} Tap to try again.`);
   musicButton.setAttribute("aria-pressed", "false");
   musicButton.title = message;
-  announcer.textContent = message;
+  showAudioNotice(message);
   console.error(message, error);
 }
 
 async function startMusic() {
-  if (!music.paused) return;
+  if (!music.paused && !music.error) return;
   musicButton.removeAttribute("data-error");
+  showAudioNotice(music.readyState < 3 ? "Loading the background piano..." : "");
   if (music.error) music.load();
   try {
     await music.play();
   } catch (error) {
     // Pausing while the MP3 is buffering intentionally cancels play().
-    if (error.name === "AbortError" && music.paused) return;
-    if (error.name === "NotAllowedError") {
+    if (error.name === "AbortError" && music.paused) {
+      showAudioNotice("");
       updateMusicControl();
-      announcer.textContent = "Tap the Music control to allow background piano playback.";
       return;
     }
-    reportMusicError("The background piano could not be played. Check the MP3 in the assets folder.", error);
+    if (error.name === "NotAllowedError") {
+      updateMusicControl();
+      showAudioNotice("Your browser needs a tap to start music. Use the Music button.");
+      return;
+    }
+    reportMusicError("The background piano could not be played. Tap Music to retry.", error);
   }
 }
 
 music.addEventListener("play", updateMusicControl);
-music.addEventListener("pause", updateMusicControl);
+music.addEventListener("playing", () => {
+  musicButton.removeAttribute("data-error");
+  showAudioNotice("");
+  updateMusicControl();
+});
+music.addEventListener("pause", () => {
+  if (!music.error) showAudioNotice("");
+  updateMusicControl();
+});
 music.addEventListener("error", () => {
-  reportMusicError("The background piano could not be loaded. Check the MP3 in the assets folder.", music.error);
+  reportMusicError("The background piano could not be loaded. Tap Music to retry.", music.error);
 });
 musicButton.addEventListener("click", () => {
-  if (music.paused) {
+  if (music.paused || music.error) {
     musicPreference = true;
     startMusic();
   } else {
@@ -75,6 +96,11 @@ musicButton.addEventListener("click", () => {
     music.pause();
   }
 });
+
+function showOpening() {
+  opening.append(audioDock);
+  opening.showModal();
+}
 
 function closeOpening(animate) {
   if (!opening.open || opening.classList.contains("is-opening")) return;
@@ -91,6 +117,7 @@ function closeOpening(animate) {
 opening.addEventListener("close", () => {
   window.clearTimeout(openingTimer);
   opening.classList.remove("is-opening");
+  pageShell.append(audioDock);
   document.getElementById("couple-names").focus({ preventScroll: true });
 });
 
@@ -98,7 +125,7 @@ document.getElementById("open-invitation").addEventListener("click", () => close
 document.getElementById("skip-opening").addEventListener("click", () => closeOpening(false));
 replayButton.addEventListener("click", () => {
   invitation.scrollTo({ top: 0, behavior: "instant" });
-  opening.showModal();
+  showOpening();
 });
 
 function renderInvitation() {
@@ -181,7 +208,7 @@ nextButton.addEventListener("click", () => {
 for (const image of invitation.querySelectorAll("img")) {
   image.addEventListener("error", () => {
     console.error("Could not load invitation artwork:", image.getAttribute("src"));
-    announcer.textContent = "Some artwork could not be loaded. Keep the assets folder alongside index.html.";
+    announcer.textContent = "Some invitation artwork could not be loaded. Please refresh the page.";
   });
 }
 
@@ -287,6 +314,7 @@ saveButton.addEventListener("click", () => {
 });
 
 for (const button of [nextButton, saveButton, replayButton, themeButton, musicButton]) button.hidden = false;
+audioDock.hidden = false;
 countdown.hidden = false;
 document.getElementById("reading-progress").max = scenes.length;
 updateThemeControl();
@@ -295,5 +323,5 @@ renderInvitation();
 updateCountdown();
 window.setInterval(updateCountdown, 1000);
 
-if (!navigateTo(window.location.hash.slice(1), { instant: true, focus: false })) opening.showModal();
+if (!navigateTo(window.location.hash.slice(1), { instant: true, focus: false })) showOpening();
 document.fonts.ready.then(refreshLayout);
