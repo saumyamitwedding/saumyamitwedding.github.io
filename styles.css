@@ -46,8 +46,6 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .page-shell {
   --viewport-height: min(820px, calc(100svh - 128px));
   --page-clearance: 96px;
-  --art-edge-fade: 32px;
-  --color-bridge: 64px;
   position: relative;
   width: min(100%, 460px);
   min-width: 0;
@@ -86,8 +84,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .invitation::-webkit-scrollbar { display: none; }
 
 .scene {
-  --fade-top: var(--art-edge-fade);
-  --fade-bottom: var(--art-edge-fade);
+  --edge-overlap: clamp(28px, 10cqw, 48px);
   position: relative;
   display: grid;
   align-items: center;
@@ -97,8 +94,13 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   padding-block: 32px;
   isolation: isolate;
 }
-.scene:first-child { --fade-top: 0px; }
-.scene:last-child { --fade-bottom: 0px; }
+/* Blend only the adjoining artwork edges, without inserting a blurred spacer. */
+.scene + .scene {
+  margin-top: calc(-1 * var(--edge-overlap));
+  -webkit-mask-image: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--cp-text) 16%, transparent) calc(var(--edge-overlap) * .25), color-mix(in srgb, var(--cp-text) 50%, transparent) calc(var(--edge-overlap) * .5), color-mix(in srgb, var(--cp-text) 84%, transparent) calc(var(--edge-overlap) * .75), var(--cp-text) var(--edge-overlap));
+  mask-image: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--cp-text) 16%, transparent) calc(var(--edge-overlap) * .25), color-mix(in srgb, var(--cp-text) 50%, transparent) calc(var(--edge-overlap) * .5), color-mix(in srgb, var(--cp-text) 84%, transparent) calc(var(--edge-overlap) * .75), var(--cp-text) var(--edge-overlap));
+  mask-mode: alpha;
+}
 .scene::before {
   content: "";
   position: absolute;
@@ -109,19 +111,6 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
-.scene:not(:last-child) { margin-bottom: var(--color-bridge); }
-.scene:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  inset-inline: 0;
-  height: var(--color-bridge);
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(to bottom, var(--cp-edge-from) 0 12px, var(--cp-edge-to) calc(100% - 12px) 100%);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
 .scene-visual {
   position: absolute;
   inset: 0;
@@ -129,9 +118,6 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
   overflow: hidden;
   pointer-events: none;
   container-type: size;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, var(--cp-text) var(--fade-top), var(--cp-text) calc(100% - var(--fade-bottom)), transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, var(--cp-text) var(--fade-top), var(--cp-text) calc(100% - var(--fade-bottom)), transparent 100%);
-  mask-mode: alpha;
 }
 .scene-canvas {
   position: absolute;
@@ -148,8 +134,9 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .scene-copy > .lotus-mark { margin-bottom: 24px; }
 
 .mantra { color: var(--cp-accent); font-size: 15px; margin-bottom: 20px; }
-.scene--hero { padding-block: 32px 120px; }
-.scene--hero .scene-copy { padding-left: 24px; }
+.scene--hero { padding-block: 48px 120px; }
+.scene--hero .scene-copy { --ganesha-size: clamp(64px, 20cqw, 96px); position: relative; padding-left: 24px; }
+.hero-ganesha { position: absolute; top: calc(12px - var(--ganesha-size)); left: calc(50% + 12px); transform: translateX(-50%); width: var(--ganesha-size); height: auto; }
 .scene--hero .eyebrow { font-size: 9px; letter-spacing: 1.7px; margin-bottom: 12px; }
 .scene--hero .couple-names,
 .scene--hero .hero-invitation,
@@ -158,7 +145,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .ampersand { display: block; font-family: var(--wedding-display); font-size: 38px; line-height: 1.15; font-weight: 400; font-style: italic; letter-spacing: 0; }
 .hero-invitation { margin-top: 16px; font-family: var(--wedding-display); font-size: 17px; font-style: italic; line-height: 1.3; color: var(--cp-text-muted); }
 .hero-date { margin-top: 20px; }
-.hero-date p { color: var(--cp-accent); font-family: var(--wedding-display); font-size: 23px; font-weight: 500; letter-spacing: 3px; }
+.hero-date p { color: var(--cp-accent); font-family: var(--wedding-display); font-size: clamp(15px, 4.3cqw, 21px); font-weight: 500; line-height: 1.4; letter-spacing: .6px; }
 .hero-date p span { padding: 0 4px; }
 .hero-date > span { display: block; margin-top: 6px; font-size: 11px; letter-spacing: .4px; }
 
@@ -181,15 +168,16 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .event-date small { font-size: 8px; letter-spacing: 1.2px; text-transform: uppercase; }
 .event-date strong { font-family: var(--wedding-display); font-size: 23px; font-weight: 600; line-height: 1.1; color: var(--cp-accent); white-space: nowrap; }
 .event-date .poetic-time strong { white-space: normal; font-size: 18px; font-style: italic; font-weight: 500; line-height: 1.3; }
+.event-followup { margin: -8px 0 20px; font-family: var(--wedding-display); font-size: 17px; font-style: italic; line-height: 1.35; color: var(--cp-text-muted); }
 .event-place { font-family: var(--wedding-display); font-size: 24px; font-weight: 600; line-height: 1.2; }
 .event-address { margin-top: 8px; font-size: 12px; line-height: 1.7; color: var(--cp-text-muted); }
 .map-link { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; margin-top: 22px; padding: 10px 18px; border: 1px solid var(--cp-accent); border-radius: 10px; text-decoration: none; font-size: 11px; }
 .map-link svg { width: 15px; height: 15px; }
 .map-link:hover { background: var(--cp-accent-soft); }
 .map-link > span { margin-left: 8px; }
-.scene--mehendi { padding-block: 32px 128px; }
+.scene--mehendi { --edge-overlap: clamp(36px, 12cqw, 56px); padding-block: 32px 128px; }
 .scene--haldi { padding-block: 32px max(80px, var(--page-clearance)); }
-.scene--baraat { padding-block: 32px max(88px, var(--page-clearance)); }
+.scene--baraat { --edge-overlap: clamp(20px, 6cqw, 28px); padding-block: 32px max(88px, var(--page-clearance)); }
 .origin-line { font-size: 11px; line-height: 1.75; color: var(--cp-text-muted); }
 .journey-arrow { display: block; margin: 8px 0; font-size: 19px; color: var(--cp-accent); }
 .scene--baraat .event-date { margin-top: 22px; margin-bottom: 20px; }
@@ -199,7 +187,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: var(--cp-accent); stroke-wi
 .scene--vidaai { padding-block: 32px 196px; }
 .scene--vidaai .occasion-note { margin-top: 12px; }
 
-.scene--venues { padding-block: 112px 180px; align-items: start; }
+.scene--venues { --edge-overlap: clamp(36px, 12cqw, 56px); padding-block: 112px 180px; align-items: start; }
 .scene--venues .scene-copy { width: calc(100% - 64px); padding-block: 0; }
 .scene--venues .scene-copy > .eyebrow { margin-bottom: 12px; }
 .scene--venues h2 { font-size: 44px; }
@@ -383,7 +371,7 @@ html[data-theme="dark"] .opening-art { opacity: .08; }
 
 @media (max-width: 520px) {
   body { padding: 0; }
-  .page-shell { width: 100%; --viewport-height: calc(100svh - 92px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); --page-clearance: 80px; --art-edge-fade: 28px; --color-bridge: 56px; }
+  .page-shell { width: 100%; --viewport-height: calc(100svh - 92px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); --page-clearance: 80px; }
   .card-header { height: calc(40px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 16px 0; gap: 8px; }
   .edition-label { font-size: 8px; letter-spacing: 1px; }
   .wordmark { font-size: 14px; }
@@ -394,7 +382,6 @@ html[data-theme="dark"] .opening-art { opacity: .08; }
   .mantra { margin-bottom: 22px; }
   .hero-invitation { font-size: 16px; margin-top: 18px; }
   .hero-date { margin-top: 24px; }
-  .hero-date p { font-size: 21px; }
   .story-prose { font-size: 12px; }
   .scene--story .scene-copy > .lotus-mark { margin-bottom: 16px; }
   .scene--story h2 { margin-bottom: 20px; }
@@ -412,7 +399,7 @@ html[data-theme="dark"] .opening-art { opacity: .08; }
 }
 
 @media (max-width: 359px) {
-  .page-shell { --page-clearance: 64px; --art-edge-fade: 24px; --color-bridge: 48px; }
+  .page-shell { --page-clearance: 64px; }
   .scene-copy { width: calc(100% - 48px); }
   .scene-copy h2 { font-size: 39px; }
   .scene--hero .couple-names { font-size: 62px; }
